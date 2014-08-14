@@ -1,31 +1,13 @@
 !function () {
   function EmbedPlayer(el, options) {
     this.$el = $(el)
-    this.options = $.extend({}, EmbedPlayer.defaults, options)
     this.setup()
   }
 
   EmbedPlayer.prototype.setup = function () {
-    this.setStyles()
     this.$el.addClass('embed-player')
     this.src = this.$el.data('src')
     this.showPreview()
-  }
-
-  EmbedPlayer.prototype.setStyles = function () {
-    var styles = []
-
-    $.each(this.options.css, function (selector, rules) {
-      styles.push(selector + '{')
-
-      $.each(rules, function (property, value) {
-        styles.push(property + ':' + value + ';')
-      })
-
-      styles.push('}')
-    }.bind(this))
-
-    $('<style />', { id: 'embed-player', html: styles.join('') }).appendTo('head')
   }
 
   EmbedPlayer.prototype.showPreview = function () {
@@ -67,39 +49,6 @@
 
     return filter
   }
-
-  EmbedPlayer.defaults = {
-    css: {
-      '.embed-player' : {
-        background: '#000',
-        cursor: 'pointer',
-        width: '100%',
-        position: 'relative'
-      },
-
-      '.embed-player:after': {
-         border: '20px solid transparent',
-         'border-left': '40px solid rgba(235,235,235,0.8)',
-         content: '" "',
-         margin: 'auto',
-         width: '0px',
-         height: '0px',
-         position: 'absolute',
-         top: '0',
-         left: '0',
-         right: '0',
-         bottom: '0'
-      },
-
-      '.embed-player.play:after': {
-        display: 'none'
-      },
-
-      '.embed-player:hover:after': {
-        'border-left-color': '#fff'
-      }
-    }
- }
 
  var youtubeFilter = {
    parser: /(https?:\/\/)?(www.)?(youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/watch\?feature=player_embedded&v=|youtube\.com\/embed\/)([A-Za-z0-9_-]*)(\&\S+)?(\?\S+)?/,
